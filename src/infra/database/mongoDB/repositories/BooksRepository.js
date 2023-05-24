@@ -13,17 +13,28 @@ export class BooksRepository {
 		return await booksEntity.find((err, books) => books).clone();
 	}
 
-	static async findOne(title) {
+	static async findOne(id) {
 		try {
-			return await booksEntity.findOne({title});
+			return await booksEntity.findOne({_id: id});
 		} catch (error) {
 			return null;
 		}
-		
+	}
+
+	static async findOneByTitle(title) {
+		try {
+			return await booksEntity.findOne({title})
+		} catch (error) {
+			return null
+		}
 	}
 
 	static async destroy(id) {
 		return await booksEntity.deleteOne({_id: id});
+	}
+
+	static async update(id, newBookUpdateRequest) {
+		return await booksEntity.findByIdAndUpdate(id, {$set: newBookUpdateRequest})
 	}
 
 }

@@ -2,7 +2,7 @@ import { BooksRepository } from "../../../infra/database/mongoDB/repositories/Bo
 
 export class CreateBooksUseCase {
 	static async execute(newBookRequest) {
-		const book = await BooksRepository.findOne(newBookRequest.title)
+		const book = await BooksRepository.findOneByTitle(newBookRequest.title)
 		if(book && book.author === newBookRequest.author) {
 			return {
 				message: "book already exist"

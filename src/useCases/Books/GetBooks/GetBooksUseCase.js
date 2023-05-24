@@ -1,6 +1,6 @@
 import { BooksRepository } from "../../../infra/database/mongoDB/repositories/BooksRepository.js";
 
-export class getBooksUseCase {
+export class GetBooksUseCase {
 	static async execute() {
 		return await BooksRepository.findAll();
 	}
