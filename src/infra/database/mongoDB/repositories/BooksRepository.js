@@ -3,27 +3,25 @@ import { booksEntity } from '../entities/BooksEntity.js';
 export class BooksRepository {
   static async save(newBookRequest) {
     const newBook = booksEntity(newBookRequest);
-    await newBook.save((err) => {
-      if (err) throw new Error(err.message);
-    });
+    await newBook.save();
     return newBook;
   }
 
   static async findAll() {
-    return await booksEntity.find((err, books) => books).clone();
+    return await booksEntity.find().populate('author').clone();
   }
 
   static async findOne(id) {
     try {
-      return await booksEntity.findOne({ _id: id });
+      return await booksEntity.findOne({ _id: id }).populate('author');
     } catch (error) {
       return null;
     }
   }
-
+  s;
   static async findOneByTitle(title) {
     try {
-      return await booksEntity.findOne({ title });
+      return await booksEntity.findOne({ title }).populate('author');
     } catch (error) {
       return null;
     }

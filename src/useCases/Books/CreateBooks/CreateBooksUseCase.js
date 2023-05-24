@@ -1,12 +1,11 @@
+import { UnprocessableEntityError } from '../../../helpers/ApiErrors.js';
 import { BooksRepository } from '../../../infra/database/mongoDB/repositories/BooksRepository.js';
 
 export class CreateBooksUseCase {
   static async execute(newBookRequest) {
     const book = await BooksRepository.findOneByTitle(newBookRequest.title);
-    if (book && book.author === newBookRequest.author) {
-      return {
-        message: 'book already exist',
-      };
+    if (book && String(book.author._id) === String(newBookRequest.author)) {
+      throw new UnprocessableEntityError('book already exist');
     }
 
     const newBook = await BooksRepository.save(newBookRequest);

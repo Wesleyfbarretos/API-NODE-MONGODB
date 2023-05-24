@@ -3,19 +3,17 @@ import { authorsEntity } from '../entities/AuthorsEntity.js';
 export class AuthorsRepository {
   static async save(newAuthorRequest) {
     const newAuthor = authorsEntity(newAuthorRequest);
-    await newAuthor.save((err) => {
-      if (err) throw new Error(err.message);
-    });
+    await newAuthor.save();
     return newAuthor;
   }
 
   static async findAll() {
-    return await authorsEntity.find((err, authors) => authors).clone();
+    return await authorsEntity.find().populate('books').clone();
   }
 
   static async findOne(id) {
     try {
-      return await authorsEntity.findOne({ _id: id });
+      return await authorsEntity.findOne({ _id: id }).populate('books');
     } catch (error) {
       return null;
     }
