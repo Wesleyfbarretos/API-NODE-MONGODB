@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 
 function dbSetup() {
-	mongoose.connect("mongodb+srv://wesley:123@cluster0.deys2co.mongodb.net/")
+	mongoose.connect(process.env.MONGO_CONNECTION_URI)
 	return mongoose.connection;
 } 
 
